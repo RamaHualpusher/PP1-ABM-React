@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ProvinciaService from '../services/ProvinciaService';
 import { Provincia } from '../model/Provincia';
-import { Container, Row, Col, Image, Card } from 'react-bootstrap';
+import { Container, Row, Col, Image, Card, Button } from 'react-bootstrap';
 
 interface RouteParams {
   id: string;
@@ -26,9 +26,9 @@ const ProvinciaDetail: React.FC = () => {
 
   return (
     <Container>
-        <Row className="justify-content-md-center mt-5">
+        <Row className="justify-content-center mt-5">
             <Col md="8">
-                <Card>
+                <Card >
                     <Card.Body>
                         <Card.Title><h1>{provincia.nombre}</h1></Card.Title>
                         <Card.Text>
@@ -37,9 +37,13 @@ const ProvinciaDetail: React.FC = () => {
                             <p><strong>Superficie:</strong> {provincia.superficie}</p>
                             <p><strong>Número de Departamentos:</strong> {provincia.nroDepartamentos}</p>
                             <p><strong>Abreviatura:</strong> {provincia.abreviatura}</p>
-                            <p><strong>Bandera:</strong> <Image src={provincia.bandera} alt={provincia.nombre} thumbnail /></p>
+                            <p><strong>Bandera:</strong></p>
+                            <Image src={"/img/"+provincia.bandera} alt={provincia.nombre} className="img-thumbnail w-25" />
                         </Card.Text>
                     </Card.Body>
+                    <Card.Footer>
+                        <Button variant="info" href={"/provincia"} className='w-50'>Volver</Button>
+                    </Card.Footer>
                 </Card>
             </Col>
         </Row>

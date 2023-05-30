@@ -49,12 +49,14 @@ const GenericTable: React.FC<TableProps> = ({ data, columns, actions, onAdd, onU
           {filteredData.map((item, index) => (
             <tr key={index}>
               {columns.map((column, key) => (
-                <td key={key}>{item[column.field]}</td>
+                <td key={key}>
+                  {column.render ? column.render(item) : item[column.field]}
+                </td>
               ))}
               <td>
-                {actions.update && <Button variant="primary" onClick={() => onUpdate!(item)}>Edit</Button>}
-                {actions.delete && <Button variant="danger" onClick={() => onDelete!(item)}>Delete</Button>}
-                {actions.view && <Button variant="info" onClick={() => onView!(item)}>View</Button>}
+                {actions.update && <Button variant="primary" className='mx-2' onClick={() => onUpdate!(item)}>Edit</Button>}
+                {actions.delete && <Button variant="danger" className='mx-2' onClick={() => onDelete!(item)}>Delete</Button>}
+                {actions.view && <Button variant="info" className='mx-2' onClick={() => onView!(item)}>View</Button>}
               </td>
             </tr>
           ))}

@@ -38,9 +38,11 @@ const ProvinciasView: React.FC = () => {
     <GenericTable
       data={provincias}
       columns={[
-        { field: 'nombre', title: 'Provincia' },
-        { field: 'abreviatura', title: 'Abreviatura' },
-        { field: 'bandera', title: 'Bandera', render: (row) => <img src={row.bandera} alt={row.nombre} /> },
+        { field: 'nombre', title: 'Provincia', width: 3 },
+        { field: 'abreviatura', title: 'Abreviatura', width: 4 },
+        { field: 'bandera', title: 'Bandera', width: 2 , render: (row) => 
+          <img src={"/img/"+row.bandera} alt={row.nombre} className="img-fluid w-50" />
+        },
       ]}
       actions={{
         create: true,

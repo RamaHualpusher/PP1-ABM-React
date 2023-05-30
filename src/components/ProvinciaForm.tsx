@@ -52,6 +52,11 @@ const ProvinciaForm: React.FC = () => {
     }
   };
 
+  const handleCancel = () => {
+    navigate('/provincia');
+  };
+
+
   if (!provincia) return <div>Loading...</div>;
 
   return (
@@ -117,8 +122,11 @@ const ProvinciaForm: React.FC = () => {
       
 
         {/* Repite el patrón de Form.Group para cada campo que necesites */}
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" className='mx-2'>
           Submit
+        </Button>
+        <Button variant="secondary" onClick={handleCancel} className="mx-2">
+          Cancelar
         </Button>
       </Form>
     </div>
