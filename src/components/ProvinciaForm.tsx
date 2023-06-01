@@ -13,6 +13,26 @@ const ProvinciaForm: React.FC = () => {
   const { id } = useParams<Record<string, string | undefined>>();
   const navigate = useNavigate();
 
+  const provincias = [
+    { nombre: 'Buenos Aires', bandera: 'public/img/buenos-aires.png' },
+    { nombre: 'CABA', bandera: 'public/img/provincia-buenos-aires.png' },
+    { nombre: 'Catamarca', bandera: 'public/img/catamarca.png' },
+    { nombre: 'Chaco', bandera: 'public/img/chaco.png' },
+    { nombre: 'Chubut', bandera: 'public/img/chubut.png' },
+    { nombre: 'Córdoba', bandera: 'public/img/cordoba.png' },
+    { nombre: 'Corrientes', bandera: 'public/img/corrientes.png' },
+    { nombre: 'Entre Ríos', bandera: 'public/img/entre-rios.png' },
+    { nombre: 'Formosa', bandera: 'public/img/formosa.png' },
+    { nombre: 'Jujuy', bandera: 'public/img/jujuy.png' },
+    { nombre: 'La Pampa', bandera: 'public/img/la-pampa.png' },
+    { nombre: 'La Rioja', bandera: 'public/img/la-rioja.png' },
+    { nombre: 'Mendoza', bandera: 'public/img/mendoza.png' },
+    { nombre: 'Misiones', bandera: 'public/img/misiones.png' },
+    { nombre: 'Neuquén', bandera: 'public/img/neuquen.png' },
+    { nombre: 'Tierra del Fuego', bandera: 'public/img/tierra-del-fuego.png' },
+  ];
+  
+
   useEffect(() => {
     const fetchProvincia = async () => {
       if (id) {
@@ -110,18 +130,21 @@ const ProvinciaForm: React.FC = () => {
       </Form.Group>
 
       <Form.Group controlId="bandera">
-          <Form.Label>Bandera</Form.Label>
-          <Form.Control
-              type="text"
-              name="bandera"
-              value={provincia.bandera}
-              onChange={handleChange}
-          />
+        <Form.Label>Bandera</Form.Label>
+        <Form.Control as="select" name="bandera" value={provincia.bandera} onChange={handleChange}>
+          {provincias.map((p, index) => (
+            <option key={index} value={p.bandera}>
+              {p.nombre}
+            </option>
+          ))}
+        </Form.Control>
+        {provincia.bandera && (
+          <div>
+            <img src={provincia.bandera} alt={provincia.nombre} style={{ width: "25px" }} />
+            {provincia.nombre}
+          </div>
+        )}
       </Form.Group>
-
-      
-
-        {/* Repite el patrón de Form.Group para cada campo que necesites */}
         <Button variant="primary" type="submit" className='mx-2'>
           Submit
         </Button>

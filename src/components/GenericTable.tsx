@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Table, InputGroup, FormControl, Container, Row, Col } from 'react-bootstrap';
-import { Search } from 'react-bootstrap-icons';
+import { Search, PencilSquare, PlusSquare, Trash, Eye } from 'react-bootstrap-icons';
 import { TableProps } from '../model/CamposTablaGenerica';
 
 const GenericTable: React.FC<TableProps> = ({ data, columns, actions, onAdd, onUpdate, onDelete, onView }) => {
@@ -20,7 +20,7 @@ const GenericTable: React.FC<TableProps> = ({ data, columns, actions, onAdd, onU
     <Container>
       <Row className="align-items-center">
         <Col sm={6}>
-          {actions.create && <Button variant="primary" onClick={onAdd}>Add</Button>}
+          {actions.create && <Button variant="primary" onClick={onAdd}><PlusSquare /></Button>}
         </Col>
         <Col sm={6}>
           <InputGroup className="mb-3">
@@ -54,9 +54,9 @@ const GenericTable: React.FC<TableProps> = ({ data, columns, actions, onAdd, onU
                 </td>
               ))}
               <td>
-                {actions.update && <Button variant="primary" className='mx-2' onClick={() => onUpdate!(item)}>Edit</Button>}
-                {actions.delete && <Button variant="danger" className='mx-2' onClick={() => onDelete!(item)}>Delete</Button>}
-                {actions.view && <Button variant="info" className='mx-2' onClick={() => onView!(item)}>View</Button>}
+                {actions.update && <Button variant="primary" className='mx-2' onClick={() => onUpdate!(item)}><PencilSquare /></Button>}
+                {actions.delete && <Button variant="danger" className='mx-2' onClick={() => onDelete!(item)}><Trash /></Button>}
+                {actions.view && <Button variant="info" className='mx-2' onClick={() => onView!(item)}><Eye /></Button>}
               </td>
             </tr>
           ))}
