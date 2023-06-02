@@ -1,8 +1,8 @@
 export interface Column<T> {
   title: string;
-  field: string;
+  field: keyof T;
   width?: number;
-  render?: (row: T) => JSX.Element;
+  render?: (row: T) => JSX.Element | null;
 }
 
 export interface Action {
@@ -20,5 +20,5 @@ export interface TableProps<T> {
   onUpdate?: (item: T) => void;
   onDelete?: (item: T) => void;
   onView?: (item: T) => void; // Nueva función para la acción "Ver"
-  customSearch?: (item: T, search: string) => boolean;
+  customSearch?: (searchText: string) => Promise<T[]>;
 }

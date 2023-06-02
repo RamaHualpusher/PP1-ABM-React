@@ -1,23 +1,58 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, FormEvent, ChangeEvent } from 'react';
 import { Button, Table, InputGroup, FormControl, Container, Row, Col } from 'react-bootstrap';
 import { Search, PencilSquare, PlusSquare, Trash, Eye } from 'react-bootstrap-icons';
 import { TableProps } from '../model/CamposTablaGenerica';
 
 function GenericTable<T>({ data, columns, actions, onAdd, onUpdate, onDelete, onView, customSearch }: TableProps<T>) {
-  const [search, setSearch] = useState("");
+  const [searchText, setSearchText] = useState("");
+  const [filteredData, setFilteredData] = useState<T[]>(data);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
+  useEffect(() => {
+    let isMounted = true; // Variable para controlar si el componente está montado
+
+    const handleSearch = async () => {
+      if (customSearch) {
+        setIsLoading(true);
+        const filteredData = await customSearch(searchText);
+        if (isMounted) {
+          setFilteredData(filteredData);
+          setIsLoading(false);
+        }
+      } else {
+        setFilteredData(
+          data.filter((item) => defaultSearch(item, searchText))
+        );
+      }
+    };
+
+    handleSearch();
+
+    // Cleanup: establecer la variable isMounted en false cuando el componente se desmonta
+    return () => {
+      isMounted = false;
+    };
+  }, [searchText, data, customSearch]);
+
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchText(e.target.value);
   };
 
-  const defaultSearch = (item: T, search: string): boolean => 
-    columns.some(column => 
-      (item as any)[column.field].toString().toLowerCase().includes(search.toLowerCase())
-    );
+  const handleSearchSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (customSearch) {
+      setIsLoading(true);
+      const filteredData = await customSearch(searchText);
+      setFilteredData(filteredData);
+      setIsLoading(false);
+    }
+  };
 
-  const searchFunction = customSearch || defaultSearch;
-
-  const filteredData = data.filter(item => searchFunction(item, search));
+  const defaultSearch = (item: T, search: string): boolean =>
+    columns.some(column => {
+      const value = item[column.field];
+      return typeof value === 'string' && value.toLowerCase().includes(search.toLowerCase());
+    });
 
   return (
     <Container>
@@ -26,24 +61,27 @@ function GenericTable<T>({ data, columns, actions, onAdd, onUpdate, onDelete, on
           {actions.create && <Button variant="primary" onClick={onAdd}><PlusSquare /></Button>}
         </Col>
         <Col sm={6}>
-          <InputGroup className="mb-3">
-            <FormControl
-              placeholder="Search"
-              aria-label="Search"
-              aria-describedby="basic-addon2"
-              onChange={handleSearch}
-            />
-            <InputGroup>
-              <Button variant="outline-secondary"><Search /></Button>
+          <form onSubmit={handleSearchSubmit}>
+            <InputGroup className="mb-3">
+              <FormControl
+                placeholder="Search"
+                aria-label="Search"
+                aria-describedby="basic-addon2"
+                onChange={handleSearchChange}
+                value={searchText}
+              />
+              <InputGroup>
+                <Button variant="outline-secondary" type="submit" disabled={isLoading}><Search /></Button>
+              </InputGroup>
             </InputGroup>
-          </InputGroup>
+          </form>
         </Col>
       </Row>
       <Table responsive>
         <thead>
           <tr>
             {columns.map((column, index) => (
-              <th key={index} style={{ width: `${column.width ? column.width * 100/12 : ""}%` }}>{column.title}</th>
+              <th key={index} style={{ width: `${column.width ? column.width * 100 / 12 : ""}%` }}>{column.title}</th>
             ))}
             {(actions.update || actions.delete || actions.view) && <th>Actions</th>}
           </tr>
@@ -53,7 +91,7 @@ function GenericTable<T>({ data, columns, actions, onAdd, onUpdate, onDelete, on
             <tr key={index}>
               {columns.map((column, key) => (
                 <td key={key}>
-                  {column.render ? column.render(item) : (item as any)[column.field]}
+                  {column.render ? column.render(item) : String(item[column.field])}
                 </td>
               ))}
               <td>
@@ -67,6 +105,7 @@ function GenericTable<T>({ data, columns, actions, onAdd, onUpdate, onDelete, on
       </Table>
     </Container>
   );
-};
+}
 
 export default GenericTable;
+
