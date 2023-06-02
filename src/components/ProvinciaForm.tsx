@@ -14,22 +14,29 @@ const ProvinciaForm: React.FC = () => {
   const navigate = useNavigate();
 
   const provincias = [
-    { nombre: 'Buenos Aires', bandera: 'public/img/buenos-aires.png' },
-    { nombre: 'CABA', bandera: 'public/img/provincia-buenos-aires.png' },
-    { nombre: 'Catamarca', bandera: 'public/img/catamarca.png' },
-    { nombre: 'Chaco', bandera: 'public/img/chaco.png' },
-    { nombre: 'Chubut', bandera: 'public/img/chubut.png' },
-    { nombre: 'Córdoba', bandera: 'public/img/cordoba.png' },
-    { nombre: 'Corrientes', bandera: 'public/img/corrientes.png' },
-    { nombre: 'Entre Ríos', bandera: 'public/img/entre-rios.png' },
-    { nombre: 'Formosa', bandera: 'public/img/formosa.png' },
-    { nombre: 'Jujuy', bandera: 'public/img/jujuy.png' },
-    { nombre: 'La Pampa', bandera: 'public/img/la-pampa.png' },
-    { nombre: 'La Rioja', bandera: 'public/img/la-rioja.png' },
-    { nombre: 'Mendoza', bandera: 'public/img/mendoza.png' },
-    { nombre: 'Misiones', bandera: 'public/img/misiones.png' },
-    { nombre: 'Neuquén', bandera: 'public/img/neuquen.png' },
-    { nombre: 'Tierra del Fuego', bandera: 'public/img/tierra-del-fuego.png' },
+    { nombre: 'Buenos Aires', bandera: 'buenos-aires.png' },
+    { nombre: 'CABA', bandera: 'provincia-buenos-aires.png' },
+    { nombre: 'Catamarca', bandera: 'catamarca.png' },
+    { nombre: 'Chaco', bandera: 'chaco.png' },
+    { nombre: 'Chubut', bandera: 'chubut.png' },
+    { nombre: 'Córdoba', bandera: 'cordoba.png' },
+    { nombre: 'Corrientes', bandera: 'corrientes.png' },
+    { nombre: 'Entre Ríos', bandera: 'entre-rios.png' },
+    { nombre: 'Formosa', bandera: 'formosa.png' },
+    { nombre: 'Jujuy', bandera: 'jujuy.png' },
+    { nombre: 'La Pampa', bandera: 'la-pampa.png' },
+    { nombre: 'La Rioja', bandera: 'la-rioja.png' },
+    { nombre: 'Mendoza', bandera: 'mendoza.png' },
+    { nombre: 'Misiones', bandera: 'misiones.png' },
+    { nombre: 'Neuquén', bandera: 'neuquen.png' },
+    { nombre: 'Tierra del Fuego', bandera: 'tierra-del-fuego.png' },
+    { nombre: 'San Juan', bandera: 'san-juan.png' },
+    { nombre: 'San Luis', bandera: 'san-luis.png' },
+    { nombre: 'Santa Cruz', bandera: 'santa-cruz.png' },
+    { nombre: 'Santa Fe', bandera: 'santa-fe.png' },
+    { nombre: 'Santiago del Estero', bandera: 'santiago-del-estero.png' },
+    { nombre: 'Tucumán', bandera: 'tucuman.png' },
+
   ];
   
 
@@ -140,8 +147,7 @@ const ProvinciaForm: React.FC = () => {
         </Form.Control>
         {provincia.bandera && (
           <div>
-            <img src={provincia.bandera} alt={provincia.nombre} style={{ width: "25px" }} />
-            {provincia.nombre}
+            <img src={"/img/" + provincia.bandera} alt={provincia.nombre} style={{ width: "10rem" }} className='m-3' />
           </div>
         )}
       </Form.Group>
