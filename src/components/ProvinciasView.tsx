@@ -36,25 +36,26 @@ const ProvinciasView: React.FC = () => {
 
   return (
     <GenericTable
-      data={provincias}
-      columns={[
-        { field: 'nombre', title: 'Provincia', width: 3 },
-        { field: 'abreviatura', title: 'Abreviatura', width: 4 },
-        { field: 'bandera', title: 'Bandera', width: 2 , render: (row) => 
-          <img src={"/img/"+row.bandera} alt={row.nombre} className="img-fluid w-50" />
-        },
-      ]}
-      actions={{
-        create: true,
-        view: true,
-        update: true,
-        delete: true,
-      }}
-      onAdd={handleAdd}
-      onView={handleView}
-      onUpdate={handleEdit}
-      onDelete={handleDelete}
-    />
+    data={provincias}
+    columns={[
+      { field: 'nombre', title: 'Provincia', width: 3 },
+      { field: 'abreviatura', title: 'Abreviatura', width: 4 },
+      { field: 'bandera', title: 'Bandera', width: 2 , render: (row: Provincia) => 
+        <img src={"/img/"+row.bandera} alt={row.nombre} className="img-fluid w-50" />
+      },
+    ]}
+    actions={{
+      create: true,
+      view: true,
+      update: true,
+      delete: true,
+    }}
+    onAdd={handleAdd}
+    onView={handleView}
+    onUpdate={handleEdit}
+    onDelete={handleDelete}
+  />
+
   );
 };
 

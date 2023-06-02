@@ -3,18 +3,21 @@ import { Button, Table, InputGroup, FormControl, Container, Row, Col } from 'rea
 import { Search, PencilSquare, PlusSquare, Trash, Eye } from 'react-bootstrap-icons';
 import { TableProps } from '../model/CamposTablaGenerica';
 
-const GenericTable: React.FC<TableProps> = ({ data, columns, actions, onAdd, onUpdate, onDelete, onView }) => {
+function GenericTable<T>({ data, columns, actions, onAdd, onUpdate, onDelete, onView, customSearch }: TableProps<T>) {
   const [search, setSearch] = useState("");
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
 
-  const filteredData = data.filter(item => 
+  const defaultSearch = (item: T, search: string): boolean => 
     columns.some(column => 
-      item[column.field].toString().toLowerCase().includes(search.toLowerCase())
-    )
-  );
+      (item as any)[column.field].toString().toLowerCase().includes(search.toLowerCase())
+    );
+
+  const searchFunction = customSearch || defaultSearch;
+
+  const filteredData = data.filter(item => searchFunction(item, search));
 
   return (
     <Container>
@@ -50,7 +53,7 @@ const GenericTable: React.FC<TableProps> = ({ data, columns, actions, onAdd, onU
             <tr key={index}>
               {columns.map((column, key) => (
                 <td key={key}>
-                  {column.render ? column.render(item) : item[column.field]}
+                  {column.render ? column.render(item) : (item as any)[column.field]}
                 </td>
               ))}
               <td>
